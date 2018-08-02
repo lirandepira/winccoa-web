@@ -16,29 +16,11 @@ class HomePageView(TemplateView):
     def get(self, request, **kwargs):
         return render(request, 'index.html', context=None)
 
-# Test view to get JSON
-def test(request):
-
-    if request.method == 'GET':
-        api = Elements.objects.filter(element_name__contains='Lumi')
-        tst = EventHistory.objects.filter(element_id__element_name='ECS:LHCbEfficiency.LumiTotal')
-        print('query: '+str(tst.query))
-        print("Here", tst[0])
-        serializer = ElementsSerializer(api, many=True)
-        return JsonResponse(serializer.data, safe=False)
-
-    elif request.method == 'POST':
-        data = JSONParser().parse(request)
-        serializer = ElementsSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data, status=201)
-        return JsonResponse(serializer.errors, status=400)
-
 # JSON view which returns JSON
 def json(request):
 
 # To be used if needed to browse the Elements table
+
     # if request.method == 'GET':
     #     api = Elements.objects.filter(element_name__contains='Lumi')
     #     print('Before the query')
